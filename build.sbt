@@ -2,7 +2,7 @@ organization := "io.github.cwmyers"
 
 name := "wrap"
 
-version := "0.0.1"
+version := "0.0.3"
 
 scalaVersion := "2.11.7"
 
