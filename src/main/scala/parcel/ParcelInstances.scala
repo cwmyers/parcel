@@ -2,17 +2,9 @@ package parcel
 
 import shapeless.{Generic, ::, HList, HNil}
 
-import cats.std.all._
 import cats.Monoid
 
 trait ParcelInstances {
-
-  implicit val intMonoid = Monoid[Int]
-  implicit val longMonoid = Monoid[Long]
-  implicit val stringMonoid2 = Monoid[String]
-  implicit val doubleMonoid = Monoid[Double]
-  implicit val floatMonoid = Monoid[Float]
-  implicit val byteMonoid = Monoid[Byte]
 
   implicit val stringParcel: StringParcel[String] = new StringParcel[String] {
     override def wrap(a: String): String = a
