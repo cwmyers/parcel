@@ -11,7 +11,6 @@ object SmartModelSpec extends Specification{
       val smartParcel: SmartStringParcel[Phone] = implicitly[SmartStringParcel[Phone]]
       "wrap" in {
         smartParcel.wrap("234") must beSome(Phone("234"))
-//        true === true
       }
     }
 

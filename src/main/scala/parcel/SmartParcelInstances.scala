@@ -20,26 +20,26 @@ trait SmartParcelInstances {
     override def wrap(b: B): Option[HNil] = Some(HNil)
   }
 
-  implicit def hconsSmartParcel[H, T <: HList, B](implicit wrap1: SmartParcel[H, B],
-                                                  wrap2: SmartParcel[T, B]): SmartParcel[H :: T, B] = new SmartParcel[H :: T, B] {
+  implicit def hconsSmartParcel[H, T <: HList, B](implicit hWrap: SmartParcel[H, B],
+                                                  tWrap: SmartParcel[T, B]): SmartParcel[H :: T, B] = new SmartParcel[H :: T, B] {
     override def wrap(b: B): Option[H :: T] = {
-      val hParcel: SmartParcel[H, B] = wrap1
-      val tParcel: SmartParcel[T, B] = wrap2
-
-      hParcel.wrap(b).map2(tParcel.wrap(b))(_ :: _)
+      hWrap.wrap(b).map2(tWrap.wrap(b))(_ :: _)
     }
 
     override def unwrap(a: ::[H, T]): B = {
-      implicitly[SmartParcel[H, B]].unwrap(a.head)
+      hWrap.unwrap(a.head)
     }
 
   }
 
   implicit def caseClassParser[A, R <: HList, B](implicit
                                                  gen: Generic[A] {type Repr = R},
-                                                 reprParcel: SmartParcel[R, B]
+                                                 reprParcel: SmartParcel[R, B],
+                                                 oWrap: OptionWrap[A, B]
                                                 ): SmartParcel[A, B] = new SmartParcel[A, B] {
-    override def wrap(s: B): Option[A] = reprParcel.wrap(s).map(gen.from)
+    override def wrap(s: B): Option[A] = {
+      oWrap.wrap(s)
+    }
 
     override def unwrap(a: A): B = reprParcel.unwrap(gen.to(a))
   }

@@ -1,8 +1,8 @@
 package model.smart
 
-case class Phone private(number: String) extends AnyVal
+case class Phone (number: String)
 
 object Phone {
-  def wrap(number:String): Option[Phone] = None //Some(Phone(number))
+  def wrap(number:String): Option[Phone] = Some(Phone(number))
 }
 

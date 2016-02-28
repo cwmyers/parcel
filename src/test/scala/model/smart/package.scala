@@ -1,11 +1,11 @@
 package model
 
-import parcel.SmartWrap
+import parcel.OptionWrap
 
 package object smart {
 
-  implicit val smartPhoneWrap: SmartWrap[Phone, String] = new SmartWrap[Phone,String] {
-    override def wrap(b: String): Option[Phone] = Phone.wrap(b)
+  implicit val smartPhoneWrap: OptionWrap[Phone, String] = new OptionWrap[Phone, String] {
+    override def wrap(b: String): Option[Phone] = Phone wrap b
   }
 
 }
